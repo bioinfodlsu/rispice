@@ -1,0 +1,48 @@
+.venv/
+.venv_dnabert2/
+.data/
+__pycache__/
+.data2/
+
+# Generated kmer files
+data/kmer
+data/samples
+data/train
+data/test
+data/final
+data/vcf
+
+# Generated Files for Processing
+data/bed
+data/macs3
+data/standard_chr
+data/coverage
+data/finetune
+data/predict
+
+# External scripts and executables
+scripts/uscs
+
+# Stored models
+models/
+
+# Generated Prep files
+data/prep
+
+# Generated Analysis files
+/analysis
+/analysis2
+
+# Generated Figures
+/figures
+/figures2
+
+# Outputs
+outputs/
+/outputs2
+
+# Results
+results/predictions
+
+# Triton
+triton-legacy-backend/
