@@ -1,23 +1,42 @@
-# Rice Variant Prioritization
+# RiSPICE
 
-This repository contains the code, data processing scripts, and analysis pipeline developed for the paper: **Integrating Chromatin Features with a DNA Language Model Enables Prioritization of Non-coding Variants in Rice Association Studies**
+RiSPICE (Rice SNP Prioritization Integrating Chromatin Effects) is a method for prioritizing non-coding rice variants by predicting their impact on chromatin features using a fine-tuned DNA language model.
+
+This repository accompanies the paper:
+
+> **Integrating Chromatin Features with a DNA Language Model Enables Prioritization of Non-coding Variants in Rice Association Studies**
+
+It includes:
+
+- Data preprocessing and dataset generation
+- Fine-tuning DNABERT-2 with LoRA
+- Model evaluation
+- Variant effect scoring
+- Downstream case study analyses
 
 ## Overview
 
-This work presents a method for predicting chromatin features from rice DNA sequences and prioritizing non-coding variants according to their predicted impact on chromatin state. The repository includes model training, evaluation, variant scoring, and downstream case study analyses.
+RiSPICE predicts chromatin feature changes caused by non-coding variants and ranks variants according to their predicted regulatory impact. The repository includes:
+
+- Data preprocessing and dataset generation
+- Fine-tuning DNABERT-2 with LoRA
+- Model evaluation
+- Variant effect scoring
+- Downstream case study analyses
 
 ## Models & Adapters
 
-This project uses **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT-2-117M)** as the base model, paired with fine-tuned LoRA adapters hosted on [Hugging Face](https://huggingface.co/):
+RiSPICE uses **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT-2-117M)** as the base model, paired with fine-tuned LoRA adapters hosted on [Hugging Face](https://huggingface.co/):
 
 * **Base Model:** [`zhihan1996/DNABERT-2-117M`](https://huggingface.co/zhihan1996/DNABERT-2-117M)
-* **1000 bp Adapter:** [`paolomanlapaz/rice-variant-prioritization-1000bp`](https://huggingface.co/paolomanlapaz/rice-variant-prioritization-1000bp)
-* **750 bp Adapter:** [`paolomanlapaz/rice-variant-prioritization-750bp`](https://huggingface.co/paolomanlapaz/rice-variant-prioritization-750bp)
-* **500 bp Adapter:** [`paolomanlapaz/rice-variant-prioritization-500bp`](https://huggingface.co/paolomanlapaz/rice-variant-prioritization-500bp)
+* **1000 bp Adapter:** [`paolomanlapaz/rispice-1000bp`](https://huggingface.co/paolomanlapaz/rispice-1000bp)
+* **750 bp Adapter:** [`paolomanlapaz/rispice-750bp`](https://huggingface.co/paolomanlapaz/rispice-750bp)
+* **500 bp Adapter:** [`paolomanlapaz/rispice-500bp`](https://huggingface.co/paolomanlapaz/rispice-500bp)
+
 
 ## Citation
 
-If you use this repository, please cite the associated paper.
+If you use RiSPICE in your research, please cite the associated paper.
 
 ## License
 
