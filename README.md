@@ -40,4 +40,4 @@ If you use RiSPICE in your research, please cite the associated paper.
 
 ## License
 
-This repository is intended for academic and research purposes.
+This project is released under the MIT License. See the LICENSE file for details.
