@@ -4,7 +4,7 @@ RiSPICE (Rice SNP Prioritization Integrating Chromatin Effects) is a method for 
 
 This repository accompanies the paper:
 
-> **Integrating Chromatin Features with a DNA Language Model Enables Prioritization of Non-coding Variants in Rice Association Studies**
+> **Prioritizing Non-coding Variants in Rice GWAS Loci with a Chromatin-Informed DNA Language Model**
 
 It includes:
 
