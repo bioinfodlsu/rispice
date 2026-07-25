@@ -26,13 +26,12 @@ RiSPICE predicts chromatin feature changes caused by non-coding variants and ran
 
 ## Models & Adapters
 
-RiSPICE builds upon **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT-2-117M)**. We provide a base sequence classification model configured with the RiSPICE multi-label chromatin feature prediction head, together with LoRA adapters trained for different input sequence lengths.
+RiSPICE builds upon **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT-2-117M)**. We provide the RiSPICE Base model, which contains a trained multi-label chromatin feature prediction head, together with LoRA adapters optimized for different input sequence lengths.
 
 - **RiSPICE Base:** [`paolomanlapaz/rispice-base`](https://huggingface.co/paolomanlapaz/rispice-base)
 - **1000 bp Adapter:** [`paolomanlapaz/rispice-1000bp`](https://huggingface.co/paolomanlapaz/rispice-1000bp)
 - **750 bp Adapter:** [`paolomanlapaz/rispice-750bp`](https://huggingface.co/paolomanlapaz/rispice-750bp)
 - **500 bp Adapter:** [`paolomanlapaz/rispice-500bp`](https://huggingface.co/paolomanlapaz/rispice-500bp)
-
 
 Download the RiSPICE Base model together with the desired LoRA adapter before running inference.
 
