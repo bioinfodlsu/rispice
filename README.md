@@ -26,13 +26,19 @@ RiSPICE predicts chromatin feature changes caused by non-coding variants and ran
 
 ## Models & Adapters
 
-RiSPICE uses **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT-2-117M)** as the base model, paired with fine-tuned LoRA adapters hosted on [Hugging Face](https://huggingface.co/):
+RiSPICE builds upon **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT-2-117M)**. We provide a base sequence classification model configured with the RiSPICE multi-label chromatin feature prediction head, together with LoRA adapters trained for different input sequence lengths.
 
-* **Base Model:** [`zhihan1996/DNABERT-2-117M`](https://huggingface.co/zhihan1996/DNABERT-2-117M)
-* **1000 bp Adapter:** [`paolomanlapaz/rispice-1000bp`](https://huggingface.co/paolomanlapaz/rispice-1000bp)
-* **750 bp Adapter:** [`paolomanlapaz/rispice-750bp`](https://huggingface.co/paolomanlapaz/rispice-750bp)
-* **500 bp Adapter:** [`paolomanlapaz/rispice-500bp`](https://huggingface.co/paolomanlapaz/rispice-500bp)
+- **RiSPICE Base:** [`paolomanlapaz/rispice-base`](https://huggingface.co/paolomanlapaz/rispice-base)
+- **1000 bp Adapter:** [`paolomanlapaz/rispice-1000bp`](https://huggingface.co/paolomanlapaz/rispice-1000bp)
+- **750 bp Adapter:** [`paolomanlapaz/rispice-750bp`](https://huggingface.co/paolomanlapaz/rispice-750bp)
+- **500 bp Adapter:** [`paolomanlapaz/rispice-500bp`](https://huggingface.co/paolomanlapaz/rispice-500bp)
 
+
+Download the RiSPICE Base model together with the desired LoRA adapter before running inference.
+
+```bash
+hf download <repo_id> --local-dir <local_directory>
+```
 
 ## Citation
 
