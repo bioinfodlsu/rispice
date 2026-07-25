@@ -25,6 +25,7 @@ scripts/uscs
 
 # Stored models
 models/
+.models/
 
 # Generated Prep files
 data/prep
