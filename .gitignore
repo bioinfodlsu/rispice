@@ -1,5 +1,7 @@
 .venv/
 .venv_dnabert2/
+.venv-cpu/
+.venv-cuda/
 .data/
 __pycache__/
 .data2/
