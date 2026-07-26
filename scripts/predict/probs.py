@@ -13,8 +13,6 @@ from pathlib import Path
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 def parse_args():
     parser = argparse.ArgumentParser(description="Predict and Score a Variant's Regulatory Effect.")
     parser.add_argument(
@@ -52,6 +50,11 @@ def parse_args():
         "--automodel",
         action="store_true",
         help="Use AutoModel when loading the model."
+    )
+    parser.add_argument(
+        "--cuda",
+        action="store_true",
+        help="Use cuda as the device if available."
     )
     parser.add_argument(
         "--features_path",
@@ -116,15 +119,12 @@ def predict_and_save(model, tokenizer, tsv_path, column_name, out_path, batch_si
     loader = DataLoader(ds, batch_size=batch_size)
     
     model.eval()
-    
-    # Open the file once and write headers
     with open(out_path, 'w') as f:
-        # Write Header
         f.write("\t".join(FEATURES) + "\n")
         
         for batch in tqdm(loader, desc=f"Saving {column_name}"):
             inputs = {k: v.to(DEVICE) for k, v in batch.items()}
-            with torch.no_grad():
+            with torch.inference_mode():
                 outputs = model(**inputs)
                 probs = torch.sigmoid(outputs.logits).cpu().numpy()
                 
@@ -136,6 +136,7 @@ args = parse_args()
 print(args)
 
 FEATURES = get_features(args.features_path)
+DEVICE = torch.device("cuda" if args.cuda else "cpu")
 
 # Validate Input
 input_validation(args)
