@@ -4,8 +4,10 @@ from ...helper import get_features
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Process the Scores of the Variants for Mutagenesis Analysis."
+        prog="python -m scripts.analysis.prioritization.per_feature_scores",
+        description="Generate the per-feature scores sorted by Overall Score."
     )
+
     parser.add_argument(
         "--scores",
         required=True,
@@ -20,38 +22,38 @@ def parse_args():
         "-o",
         "--output_dir",
         required=True,
-        help="Start base.",
+        help="Directory where the output file will be saved.",
     )
     parser.add_argument(
         "--output_fn",
-        default="impact_per_mark.tsv",
-        help="File Name of the output",
+        default="per_feature_scores.tsv",
+        help="Name of the output file. (Default: per_feature_scores.tsv)",
     )
     parser.add_argument(
         "--use_existing_id",
         action="store_true",
-        help="Use the existing ID within the SNP List for the labels",
+        help="Use the existing IDs from the SNP list instead of generating new variant IDs.",
     )
     parser.add_argument(
         "--metric",
         default="Variant",
-        help="The metric that would be used for sorting the variants. (Default: Variant)",
+        help="Column used to rank the variants. (Default: Variant)",
     )
     parser.add_argument(
         "--top",
         type=int,
-        help="The number of variants to be included in the list",
+        help="Number of top-ranked variants to include in the output.",
     )
     parser.add_argument(
-        "--filter",
-        help="Only include variants in the given list (positions). This is a path to a tsv file.",
+        "--positions",
+        help="Path to a TSV file containing variant positions to retain. The file must contain a column named 'pos'.",
     )
     parser.add_argument(
         "--features_path",
-        default=".data2/prep/constant/features.csv",
-        help="Path to csv file containing the list of all features to process (ensure sorting.).",
+        default="features.csv",
+        help="Path to the CSV file listing the features to include. (Default: features.csv)",
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()
@@ -76,8 +78,8 @@ if not args.use_existing_id:
     df["id"] = "Chr" + df["chrom"].astype(str) + ":" + df["pos"].astype(str) + "_" + df["ref"] + df["alt"]
 
 # filter if needed
-if args.filter:
-    filter_df = pd.read_csv(args.filter, sep="\t")
+if args.positions:
+    filter_df = pd.read_csv(args.positions, sep="\t")
     df = df[df["pos"].isin(filter_df["pos"])]
 
 # Retain the relevant columns
@@ -89,8 +91,8 @@ print(df)
 output_dir = Path(args.output_dir)
 output_dir.mkdir(parents=True, exist_ok=True)
 
-fname = f"impact_per_mark_top{args.top}.tsv" if args.top else args.output_fn
+fname = f"per_feature_scores_top{args.top}.tsv" if args.top else args.output_fn
 
 output_path = output_dir / fname
 df.to_csv(output_path, sep="\t", index=False)
-print(f"Saved Variant Impact Per Mark to {output_path}")
+print(f"Saved Per-Feature Scores to {output_path}")
