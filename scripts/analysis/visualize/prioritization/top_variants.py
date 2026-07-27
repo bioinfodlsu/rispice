@@ -8,60 +8,61 @@ import matplotlib.ticker as mtick
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Convert a VCF file to a SNP List for processing."
+        prog="python -m scripts.analysis.visualize.prioritization.top_variants",
+        description="Generate a plot from a RiSPICE top_variants.tsv file."
     )
+
     parser.add_argument(
         "-i",
         "--input",
         required=True,
-        help="Path to the top_variants file.",
+        help="Path to the input top_variants.tsv file.",
     )
     parser.add_argument(
         "-o",
-        "--output_file",
+        "--output",
         required=True,
-        help="Path to the desired output file.",
+        help="Path to the output image file.",
     )
     parser.add_argument(
         "--x_key",
         default="id",
-        help="key to be used when accessing the data in the df for the x-axis.",
+        help="Column to use for the x-axis. (Default: id)",
     )
     parser.add_argument(
         "-m",
         "--metric",
         default="Variant",
-        help="A column within the dataframe.",
+        help="Column to plot on the y-axis. (Default: Variant)",
     )
-    
     parser.add_argument(
         "--x_label",
         default="SNPs",
-        help="Label displayed in the graph for the x-axis.",
+        help="Label for the x-axis. (Default: SNPs)",
     )
     parser.add_argument(
         "--y_label",
-        default="Variant Score",
-        help="Label displayed in the graph for the y-axis.",
+        default="Overall Score",
+        help="Label for the y-axis. (Default: Overall Score)",
     )
     parser.add_argument(
         "-t",
         "--title",
-        help="The title of the graph. (Default: *output_filename*)",
+        help="Plot title. (Default: output filename)",
     )
     parser.add_argument(
         "--width",
         default=6,
         type=int,
-        help="Width of the graph. (Recommended: 20var=6w, 100var=20w)",
+        help="Plot width in inches. (Recommended: 6 for ~20 variants, 20 for ~100 variants)",
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()
 print(args)
 
-output_file = Path(args.output_file)
+output_file = Path(args.output)
 df = pd.read_csv(args.input, sep="\t")
 print(df)
 

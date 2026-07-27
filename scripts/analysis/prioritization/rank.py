@@ -3,8 +3,10 @@ from pathlib import Path
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Sort the Top Variants given the Variant Scores."
+        prog="python -m scripts.analysis.prioritization.rank",
+        description="Rank variants based on their RiSPICE scores."
     )
+
     parser.add_argument(
         "--scores",
         required=True,
@@ -19,33 +21,36 @@ def parse_args():
         "-o",
         "--output_dir",
         required=True,
-        help="Start base.",
+        help="Directory where the output file will be saved.",
     )
     parser.add_argument(
         "--output_fn",
         default="top_variants.tsv",
-        help="File Name of the output",
+        help="Name of the output file. (Default: top_variants.tsv)",
     )
     parser.add_argument(
         "--use_existing_id",
         action="store_true",
-        help="Use the existing ID within the SNP List for the labels",
+        help="Use the existing IDs from the SNP list instead of generating new variant IDs.",
     )
     parser.add_argument(
         "--metric",
         default="Variant",
-        help="The metric that would be used for sorting the variants. (Default: Variant)",
+        help="Column used to rank the variants. (Default: Variant)",
     )
     parser.add_argument(
         "--top",
         type=int,
-        help="The number of variants to be included in the list",
+        help="Number of top-ranked variants to include in the output.",
     )
     parser.add_argument(
-        "--filter",
-        help="Only include variants in the given list (positions). This is a path to a tsv file.",
+        "--positions",
+        help=(
+            "Path to a TSV file containing variant positions to retain. "
+            "The file must contain a column named 'pos'."
+        ),
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()
@@ -68,8 +73,8 @@ if not args.use_existing_id:
     df["id"] = "Chr" + df["chrom"].astype(str) + ":" + df["pos"].astype(str) + "_" + df["ref"] + df["alt"]
 
 # filter if needed
-if args.filter:
-    filter_df = pd.read_csv(args.filter, sep="\t")
+if args.positions:
+    filter_df = pd.read_csv(args.positions, sep="\t")
     df = df[df["pos"].isin(filter_df["pos"])]
 
 # Retain the relevant columns
