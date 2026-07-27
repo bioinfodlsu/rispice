@@ -5,36 +5,53 @@ from pathlib import Path
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Convert a VCF file to a SNP List for processing."
+        prog="python -m scripts.snp.vcf_to_snp_list",
+        description=(
+            "Convert a VCF file into a RiSPICE SNP list for downstream processing."
+        ),
     )
+
     parser.add_argument(
         "-i",
         "--input",
         required=True,
-        help="Path VCF File.",
+        help="Path to the input VCF file.",
     )
+
     parser.add_argument(
         "-o",
         "--output_dir",
         required=True,
-        help="Start base.",
+        help="Directory where the output SNP list will be written.",
     )
+
     parser.add_argument(
         "--output_fn",
         default="snp_list.tsv",
-        help="File Name of the output",
+        help=(
+            "Name of the output SNP list file. "
+            "(default: snp_list.tsv)"
+        ),
     )
-    parser.add_argument(
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         "--nip_to_chrom",
         action="store_true",
-        help="Given the Nipponbare ID, map it to a readable Chr code.",
+        help=(
+            "Convert Nipponbare GenBank chromosome accessions "
+            "(e.g. AP014957.1) to chromosome numbers (e.g. 1)."
+        ),
     )
-    parser.add_argument(
+    group.add_argument(
         "--num_to_chrom",
         action="store_true",
-        help="Given the int format Chrom, map it to a readable Chr code.",
+        help=(
+            "Convert numeric chromosome identifiers "
+            "(e.g. 1) to chromosome names (e.g. Chr1)."
+        ),
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()

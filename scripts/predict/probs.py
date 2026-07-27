@@ -14,53 +14,76 @@ from datasets import load_dataset
 from torch.utils.data import DataLoader
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Predict and Score a Variant's Regulatory Effect.")
+    parser = argparse.ArgumentParser(
+        prog="python -m scripts.predict.probs",
+        description=(
+            "Predict chromatin features for reference and alternate DNA sequences."
+        )
+    )
+
     parser.add_argument(
         "-m",
         "--model",
         required=True,
-        help="Directory of the base model used during training.",
+        help="Path to the RiSPICE base model directory.",
     )
+
     parser.add_argument(
         "-l",
         "--lora",
-        help="Directory of the trained lora adapter during training.",
+        help=(
+            "Path to the RiSPICE LoRA adapter directory "
+            "(e.g. 500 bp, 750 bp, or 1000 bp adapter)."
+        )
     )
+
     parser.add_argument(
         "-i",
         "--input",
         required=True,
-        help="Path to the Input CSV containing the ref_seq and alt_seq."
+        help=(
+            "Input TSV file containing the generated reference and alternate "
+            "sequences."
+        ),
     )
-    
+
     parser.add_argument(
         "-o",
         "--output_dir",
         required=True,
-        help="Output Directory where the predictions will be stored"
+        help="Directory where prediction results will be written.",
     )
-    
+
     parser.add_argument(
         "-k",
         "--kmer",
         type=int,
-        help="Kmer required by the model"
+        help=(
+            "k-mer size for tokenization, if required by the selected model."
+        ),
     )
+
     parser.add_argument(
         "--automodel",
         action="store_true",
-        help="Use AutoModel when loading the model."
+        help="Load the model using Hugging Face AutoModel.",
     )
+
     parser.add_argument(
         "--cuda",
         action="store_true",
-        help="Use cuda as the device if available."
+        help="Run inference on a CUDA-enabled GPU if available.",
     )
+
     parser.add_argument(
         "--features_path",
-        default=".data2/prep/constant/features.csv",
-        help="Path to csv file containing the list of all features to process (ensure sorting.).",
+        default="features.csv",
+        help=(
+            "CSV file listing the chromatin features in the expected output "
+            "order. (default: features.csv)"
+        ),
     )
+
     return parser.parse_args()
 
 def input_validation(args):

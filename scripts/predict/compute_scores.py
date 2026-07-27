@@ -7,33 +7,60 @@ from ..helper import get_features
 MODES = ["diff", "abs_diff", "log_odds"]
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Given the probabilities for the Ref and Alt, compute the delta scores for each mark, and the overall Variant Score.")
+    parser = argparse.ArgumentParser(
+        prog="python -m scripts.predict.compute_scores",
+        description=(
+            "Compute per-feature and overall scores"
+            "from predicted chromatin feature probabilities."
+        ),
+    )
+
     parser.add_argument(
         "-i",
         "--input_dir",
         required=True,
-        help="Path to the directory containing the ref.tsv and alt.tsv probabilities."
+        help=(
+            "Directory containing the predicted probabilities "
+            "(ref.tsv and alt.tsv)."
+        ),
     )
+
     parser.add_argument(
         "-o",
         "--output_dir",
-        help="Path where the computed scores would be stored. (Default: Same as Input Dir)"
+        help=(
+            "Directory where the computed scores will be written. "
+            "(default: input directory)"
+        ),
     )
+
     parser.add_argument(
         "-m",
         "--mode",
-        help="How to compute Variant Effect per Epigenetic Mark. (Options: `diff`, `abs_diff`, `log_odds`)"
+        help=(
+            "Method for computing per-feature effect scores. "
+            "Options: diff, abs_diff, log_odds."
+        ),
     )
+
     parser.add_argument(
         "-f",
         "--fname",
-        help="Specify filename for the results. Default: scores_[mode]"
+        help=(
+            "Output filename. "
+            "(default: scores_<mode>.tsv)"
+        ),
     )
+
     parser.add_argument(
         "--features_path",
-        default=".data2/prep/constant/features.csv",
-        help="Path to csv file containing the list of all features to process (ensure sorting.).",
+        default="features.csv",
+        help=(
+            "CSV file listing the chromatin features in the expected output "
+            "order. (default: features.csv)"
+        ),
     )
+
     return parser.parse_args()
 
 def diff(alt_probs, ref_probs, abs=False):

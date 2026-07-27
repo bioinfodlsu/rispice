@@ -1,45 +1,73 @@
 import argparse, pandas as pd
 from pathlib import Path
 from ..utils import SequenceUtils
-from ..constants import NIPPONBARE_GENBANK_PATH, NIPPONBARE_ID_TO_CHR
+from ..constants import NIPPONBARE_ID_TO_CHR
 from .utils import extract_seq
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Prepare the Input Sequences needed by the model.")
+    parser = argparse.ArgumentParser(
+        prog="python -m scripts.predict.generate_sequences",
+        description=(
+            "Generate reference and alternate DNA sequences centred on input SNPs "
+            "for downstream RiSPICE prediction.\n\n"
+            "Note: The reference genome should correspond to the Nipponbare "
+            "IRGSP-1.0 assembly (GenBank accession GCA_001433935.1)."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+
     parser.add_argument(
         "-f",
         "--fasta",
-        default=NIPPONBARE_GENBANK_PATH,
-        help="Path to the FASTA file containing the Reference Genome"
+        help=(
+            "Reference genome FASTA file (GenBank accession GCA_001433935.1). "
+        ),
     )
+
     parser.add_argument(
         "-i",
         "--input",
-        help="The SNP List file containing all the SNPs to be processed"
+        help=(
+            "Input SNP file containing the variants to process."
+        ),
     )
-    parser.add_argument(
-        "--zero_based",
-        action="store_true",
-        help="Flag on whether to treat the position as zero-indexed. (Default: 1-based)"
-    )
+
     parser.add_argument(
         "-l",
         "--length",
         type=int,
-        default=500,
-        help="The length of the Sequences to be generated. (Default: 500bp)"
+        default=1000,
+        help=(
+            "Length (bp) of the generated reference and alternate sequences. "
+            "(default: 1000)"
+        ),
     )
+
     parser.add_argument(
         "-o",
         "--output_dir",
         required=True,
-        help="Where the output would be placed in."
+        help="Directory where output files will be written.",
     )
+
     parser.add_argument(
         "--output_fn",
         default="sequences.tsv",
-        help="Where the output would be placed in."
+        help=(
+            "Name of the output TSV file. "
+            "(default: sequences.tsv)"
+        ),
     )
+
+    parser.add_argument(
+        "--zero_based",
+        action="store_true",
+        help=(
+            "Treat SNP coordinates as 0-based. "
+            "By default, positions are interpreted as 1-based."
+        ),
+    )
+
     return parser.parse_args()
 
 class InputValidation():
