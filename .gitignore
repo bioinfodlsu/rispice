@@ -35,10 +35,12 @@ data/prep
 # Generated Analysis files
 /analysis
 /analysis2
+.analysis/
 
 # Generated Figures
 /figures
 /figures2
+.figures/
 
 # Outputs
 outputs/
