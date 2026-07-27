@@ -16,7 +16,7 @@ It includes:
 
 ## Quick Start
 
-See the **[Quick Start Guide](https://github.com/bioinfodlsu/rispice/wiki/Quick-Start)** for installation instructions and examples of running RiSPICE.
+See the **[Quick Start Guide](https://github.com/bioinfodlsu/rispice/wiki/2.-Quick-Start)** for installation instructions and examples of running RiSPICE.
 
 ## Models & Adapters
 
