@@ -1,58 +1,76 @@
 import argparse, pandas as pd
 from pathlib import Path
 from ..utils import SequenceUtils
-from ..constants import NIPPONBARE_GENBANK_PATH, NIPPONBARE_ID_TO_CHR, BASES, CHR_NUM_TO_NIPPONBARE_ID
+from ..constants import NIPPONBARE_ID_TO_CHR, BASES, CHR_NUM_TO_NIPPONBARE_ID
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate a SNP List for ACGT bases for a given range."
+        prog="python -m scripts.snp.range_to_snp_list",
+        description="Generate a SNP list containing all possible A/C/G/T substitutions within a genomic interval."
     )
+
     parser.add_argument(
         "--chrom",
         required=True,
         type=int,
-        help="Chromosome Number (i.e. 1-12)",
+        help="Chromosome number (1-12).",
     )
+
     parser.add_argument(
         "--start",
         required=True,
         type=int,
-        help="Start BP (Inclusive)",
+        help="Start genomic position (1-based, inclusive).",
     )
+
     parser.add_argument(
         "--end",
         required=True,
         type=int,
-        help="End BP (Inclusive)",
+        help="End genomic position (1-based, inclusive).",
     )
+
+    parser.add_argument(
+        "-f",
+        "--fasta",
+        required=True,
+        help=(
+            "Reference genome FASTA file "
+            "(GenBank assembly GCA_001433935.1)."
+        ),
+    )
+
     parser.add_argument(
         "-o",
         "--output_dir",
         required=True,
-        help="Start base.",
+        help="Directory where the output file will be written.",
     )
+
     parser.add_argument(
         "--output_fn",
         default="snp_list.tsv",
-        help="File Name of the output",
+        help="Name of the output SNP list file (default: %(default)s).",
     )
-    parser.add_argument(
-        "--override_chrom",
-        action="store_true",
-        help="Given the Nipponbare ID, map it to a readable Chr code.",
-    )
-    parser.add_argument(
-        "-f",
-        "--fasta",
-        default=NIPPONBARE_GENBANK_PATH,
-        help="Path to the FASTA file containing the Reference Genome"
-    )
+
+    # parser.add_argument(
+    #     "--override_chrom",
+    #     action="store_true",
+    #     help=(
+    #         "Convert Nipponbare accession IDs in the FASTA "
+    #         "to chromosome numbers (Chr1-Chr12)."
+    #     ),
+    # )
+
     parser.add_argument(
         "--use_nipponbare_id",
         action="store_true",
-        help="Given the Chrom Number, use the Nipponbare ID when storing.",
+        help=(
+            "Store chromosome identifiers using Nipponbare accession IDs "
+            "instead of chromosome numbers."
+        ),
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()
