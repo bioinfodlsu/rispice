@@ -22,7 +22,7 @@ def parse_args():
 
     parser.add_argument(
         "-s",
-        "--sig_matrix",
+        "--significance",
         required=True,
         help="Path to the significance annotation matrix TSV file.",
     )
@@ -70,7 +70,7 @@ matrix_df.set_index("ref", inplace=True)
 print(matrix_df.T)
 
 # Load the Significant Boolean Matrix
-sig_df = pd.read_csv(args.sig_matrix, sep="\t")  # shape must match matrix_df
+sig_df = pd.read_csv(args.significance, sep="\t")  # shape must match matrix_df
 print(sig_df.T)
 
 # Plot
