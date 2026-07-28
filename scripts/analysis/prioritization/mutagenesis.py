@@ -4,30 +4,38 @@ from ...constants import BASES
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Process the Scores of the Variants for Mutagenesis Analysis."
+        prog="python -m scripts.analysis.prioritization.mutagenesis",
+        description="Organize mutagenesis scores into an A/C/G/T matrix for each genomic position."
     )
+
     parser.add_argument(
         "--scores",
         required=True,
         help="Path to the scores.tsv file.",
     )
+
     parser.add_argument(
         "--snp_list",
         required=True,
         help="Path to the snp_list.tsv file.",
     )
+
     parser.add_argument(
         "-o",
         "--output",
         required=True,
-        help="Save the results to the file",
+        help="Path to the output TSV file.",
     )
+
     parser.add_argument(
         "--metric",
         default="Variant",
-        help="The metric that would be used for sorting the variants. (Default: Variant)",
+        help=(
+            "Column used to sort the variants "
+            "(default: %(default)s)."
+        ),
     )
-    
+
     return parser.parse_args()
 
 def get_ref_seq(df) -> str:

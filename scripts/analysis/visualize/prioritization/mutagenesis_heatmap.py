@@ -9,42 +9,49 @@ from matplotlib.patches import Rectangle
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate the Heatmap for the Mutagenesis Analysis."
+        prog="python -m scripts.analysis.visualize.prioritization.mutagenesis_heatmap",
+        description="Generate a heatmap from the mutagenesis analysis matrix."
     )
+
     parser.add_argument(
         "-i",
         "--input",
         required=True,
-        help="Path to the mutagenesis dataframe file.",
+        help="Path to the mutagenesis analysis matrix TSV file.",
     )
+
     parser.add_argument(
         "-s",
         "--sig_matrix",
         required=True,
-        help="Path to the significant matrix file.",
+        help="Path to the significance annotation matrix TSV file.",
     )
+
     parser.add_argument(
         "-o",
         "--output_file",
         required=True,
-        help="Path to the desired output file.",
+        help="Path to the output image file.",
     )
+
     parser.add_argument(
         "-t",
         "--title",
-        help="The title of the graph. (Default: *output_filename*)",
+        help="Title of the heatmap (default: output filename).",
     )
+
     parser.add_argument(
         "-y",
         "--y_label",
         default="ALT Alleles",
-        help="Set the y label for the graph.",
+        help="Label for the y-axis (default: %(default)s).",
     )
+
     parser.add_argument(
         "-x",
         "--x_label",
         default="REF Alleles",
-        help="Set the x label for the graph.",
+        help="Label for the x-axis (default: %(default)s).",
     )
 
     return parser.parse_args()

@@ -7,50 +7,61 @@ import matplotlib.pyplot as plt
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate Max Effect Graph for Mutagenesis Analysis."
+        prog="python -m scripts.analysis.visualize.prioritization.mutagenesis_max_effect",
+        description="Generate a maximum variant effect plot from mutagenesis analysis results."
     )
+
     parser.add_argument(
         "-i",
         "--input",
         required=True,
-        help="Path to the mutagenesis dataframe file.",
+        help="Path to the mutagenesis analysis TSV file.",
     )
+
     parser.add_argument(
         "-t",
         "--thresholds",
         required=True,
-        help="Computed genome-wide thresholds",
+        help=(
+            "Path to the thresholds.tsv file containing empirical "
+            "genome-wide significance thresholds."
+        ),
     )
+
     parser.add_argument(
         "-o",
         "--output_file",
         required=True,
-        help="Path to the desired output file.",
+        help="Path to the output image file.",
     )
+
     parser.add_argument(
         "--title",
-        help="The title of the graph. (Default: *output_filename*)",
+        help="Title of the plot (default: output filename).",
     )
+
     parser.add_argument(
         "-y",
         "--y_label",
         default="Max Variant Effect Score",
-        help="Set the y label for the graph.",
+        help="Label for the y-axis (default: %(default)s).",
     )
+
     parser.add_argument(
         "-x",
         "--x_label",
         default="REF Alleles",
-        help="Set the x label for the graph.",
+        help="Label for the x-axis (default: %(default)s).",
     )
+
     parser.add_argument(
         "-s",
         "--significance",
         default=0.1,
         type=float,
-        help="Genome-wide Significance Level to use. (default: 0.1)"
+        help="Significance level to annotate (default: %(default)s).",
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()
@@ -80,7 +91,7 @@ ax.set_xticklabels(ax.get_xticklabels(), weight='semibold')
 # Add significance line if there are significant points
 if sig_line is not None:
     ax.axhline(y=sig_line, color="red", linestyle="--", linewidth=2)
-    ax.legend(fontsize=12)
+    # ax.legend(fontsize=12)
 
 ax.set_xlabel(args.x_label, fontweight="semibold")
 ax.set_ylabel(args.y_label, fontweight="semibold")

@@ -1,39 +1,51 @@
 import argparse
 import pandas as pd
-from scipy.stats import zscore
 from ...constants import BASES
 from pathlib import Path
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Given a tsv file containing the Mutagenesis Analysis results, compute for the `z_score` per base."
+        description=(
+            "Annotate mutagenesis results using empirical significance "
+            "thresholds computed from the genome-wide background distribution."
+        )
     )
+
     parser.add_argument(
         "-i",
         "--input",
         required=True,
-        help="Path to the mutagenesis analysis dataframe file.",
+        help="Path to the mutagenesis analysis TSV file.",
     )
+
     parser.add_argument(
         "-t",
         "--thresholds",
         required=True,
-        help="Computed genome-wide thresholds.",
+        help=(
+            "Path to the thresholds.tsv file containing empirical "
+            "genome-wide significance thresholds."
+        ),
     )
+
     parser.add_argument(
         "-o",
         "--output_dir",
         required=True,
-        help="Save the results to the dir",
+        help="Directory where the annotated results will be written.",
     )
+
     parser.add_argument(
         "-s",
         "--significance",
         default=0.1,
         type=float,
-        help="Genome-wide Significance Level to use. (default: 0.1)"
+        help=(
+            "Significance level to annotate "
+            "(default: %(default)s)."
+        ),
     )
-    
+
     return parser.parse_args()
 
 args = parse_args()
@@ -66,6 +78,6 @@ print(sig_cumul)
 output_path = Path(args.output_dir)
 output_path.mkdir(parents=True, exist_ok=True)
 
-sig_matrix.to_csv(output_path / "genomewide_sig_matrix.tsv", sep="\t", index=False)
-sig_cumul.to_csv(output_path / "genomewide_sig_loci.tsv", sep="\t", index=False)
+sig_matrix.to_csv(output_path / "significant_matrix.tsv", sep="\t", index=False)
+sig_cumul.to_csv(output_path / "significant_loci.tsv", sep="\t", index=False)
 print(f"Saved results to {output_path}")
