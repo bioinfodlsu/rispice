@@ -79,5 +79,5 @@ output_path = Path(args.output_dir)
 output_path.mkdir(parents=True, exist_ok=True)
 
 sig_matrix.to_csv(output_path / "significant_matrix.tsv", sep="\t", index=False)
-sig_cumul.to_csv(output_path / "significant_loci.tsv", sep="\t", index=False)
+sig_cumul.to_csv(output_path / "significant_positions.tsv", sep="\t", index=False)
 print(f"Saved results to {output_path}")
