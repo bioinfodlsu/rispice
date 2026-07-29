@@ -6,17 +6,33 @@ This repository accompanies the paper:
 
 > **Prioritizing Non-coding Variants in Rice GWAS Loci with a Chromatin-Informed DNA Language Model**
 
-It includes:
+## What You Can Do with RiSPICE
 
-- Data preprocessing and dataset generation
-- Fine-tuning DNABERT-2 with LoRA
-- Model evaluation
-- Variant effect scoring
-- Downstream case study analyses
+RiSPICE provides an end-to-end workflow for analyzing the predicted chromatin effects of non-coding variants.
 
-## Quick Start
+Using the provided RiSPICE models, you can:
 
-See the **[Quick Start Guide](https://github.com/bioinfodlsu/rispice/wiki/2.-Quick-Start)** for installation instructions and examples of running RiSPICE.
+- Predict chromatin feature probabilities for reference and alternate alleles.
+- Compute **Per-Feature Scores** and **Overall Scores** to quantify the predicted impact of each variant.
+- Prioritize variants by ranking them according to their Overall Scores.
+- Analyze the predicted effects on individual chromatin features.
+- Perform **in silico saturation mutagenesis** to identify impactful mutations within a genomic region.
+
+The repository also includes the scripts used in this study for:
+
+- Data preprocessing and dataset generation.
+- Fine-tuning DNABERT-2 using LoRA.
+- Model evaluation.
+
+## Getting Started
+
+To install RiSPICE and reproduce the complete OsHAK1 case study from the manuscript, see the **Getting Started** guide.
+
+➡️ **Getting Started:** `getting-started/README.md`
+
+Additional workflows and project documentation are available in the GitHub Wiki.
+
+➡️ **GitHub Wiki:** https://github.com/bioinfodlsu/rispice/wiki
 
 ## Models & Adapters
 
