@@ -1,0 +1,21 @@
+services:
+  rispice:
+    init: true
+    build:
+      context: .
+      args:
+        REQUIREMENTS: requirements-cuda.txt
+
+    image: rispice:cuda
+    working_dir: /rispice
+
+    stdin_open: true
+    tty: true
+
+    gpus: all
+
+    volumes:
+      - ./.data:/rispice/.data
+      - ./.models:/rispice/.models
+      - ./.analysis:/rispice/.analysis
+      - ./.figures:/rispice/.figures
