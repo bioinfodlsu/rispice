@@ -16,7 +16,3 @@ __pycache__/
 
 .venv-cuda/
 .venv-cpu/
-
-renv/
-.Rprofile
-renv.lock
