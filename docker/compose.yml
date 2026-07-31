@@ -1,0 +1,23 @@
+services:
+  rispice-cpu:
+    image: rispice-cpu:v0.1.0
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.cpu
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+    stdin_open: true
+    tty: true
+
+  rispice-cuda:
+    image: rispice-cuda:v0.1.0
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.cuda
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+    stdin_open: true
+    tty: true
+    gpus: all

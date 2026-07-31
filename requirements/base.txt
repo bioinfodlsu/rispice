@@ -1,0 +1,12 @@
+biopython==1.85
+cyvcf2==0.33.0
+datasets==4.2.0
+einops==0.8.2
+pandas==2.2.3
+peft==0.18.1
+pyBigWig==0.3.24
+scikit-learn==1.7.2
+scipy==1.15.3
+seaborn==0.13.2
+transformers==4.57.0
+wget==3.2
