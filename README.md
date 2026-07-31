@@ -4,7 +4,8 @@ RiSPICE (Rice SNP Prioritization Integrating Chromatin Effects) is a method for 
 
 This repository accompanies the paper:
 
-> **Prioritizing Non-coding Variants in Rice GWAS Loci with a Chromatin-Informed DNA Language Model**
+> **Prioritizing Non-coding Variants in Rice GWAS Loci with a Chromatin-Informed DNA Language Model**  
+> *bioRxiv* (2026). https://doi.org/10.64898/2026.07.24.740656
 
 ## What You Can Do with RiSPICE
 
@@ -28,7 +29,7 @@ The repository also includes the scripts used in this study for:
 
 To install RiSPICE and reproduce the complete OsHAK1 case study from the manuscript, see the **Getting Started** guide.
 
-➡️ **Getting Started:** `getting-started/README.md`
+➡️ **Getting Started:** [`getting-started/README.md`](https://github.com/bioinfodlsu/rispice/tree/main/getting-started)
 
 Additional workflows and project documentation are available in the GitHub Wiki.
 
@@ -43,11 +44,7 @@ RiSPICE builds upon **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT
 - **750 bp Adapter:** [`paolomanlapaz/rispice-750bp`](https://huggingface.co/paolomanlapaz/rispice-750bp)
 - **500 bp Adapter:** [`paolomanlapaz/rispice-500bp`](https://huggingface.co/paolomanlapaz/rispice-500bp)
 
-Download the RiSPICE Base model together with the desired LoRA adapter before running inference.
-
-```bash
-hf download <repo_id> --local-dir <local_directory>
-```
+Download the RiSPICE Base model together with the desired LoRA adapter. The model repositories can be downloaded directly from the Hugging Face website, cloned with Git, or retrieved using the Hugging Face CLI.
 
 ## Citation
 
