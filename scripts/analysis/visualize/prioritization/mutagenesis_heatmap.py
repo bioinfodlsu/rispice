@@ -99,7 +99,8 @@ ax = sns.heatmap(
     cmap=color,
     linewidths=0.2,
     vmin=None if not args.feature else -max_abs,
-    vmax=None if not args.feature else max_abs
+    vmax=None if not args.feature else max_abs,
+    cbar_kws={"pad": 0.01},
 )
 
 ax.set(xlabel=None, ylabel=None)
@@ -128,5 +129,5 @@ output_file.parent.mkdir(parents=True, exist_ok=True)
 
 print(f"Saving results to {output_file}")
 plt.tight_layout()
-plt.savefig(output_file, dpi=300)
+plt.savefig(output_file, bbox_inches="tight", dpi=300)
 plt.close()
