@@ -156,3 +156,5 @@ MODEL_KEYS = [
     "k6",
     "bpe"
 ]
+
+OVERALL_SCORE_COL = "Variant"

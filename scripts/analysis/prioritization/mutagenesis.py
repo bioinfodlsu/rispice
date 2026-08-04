@@ -1,6 +1,7 @@
 import argparse, pandas as pd
 from pathlib import Path
-from ...constants import BASES
+from ...constants import BASES, OVERALL_SCORE_COL
+from ...helper import get_features
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -28,12 +29,13 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--metric",
-        default="Variant",
-        help=(
-            "Column used to sort the variants "
-            "(default: %(default)s)."
-        ),
+        "--feature",
+        help="Specify Chromatin Feature. If unspecified, the matrix will use the Overall Score."
+    )
+    parser.add_argument(
+        "--features_path",
+        default="features.csv",
+        help="Path to the CSV file listing the features to include. (Default: features.csv)",
     )
 
     return parser.parse_args()
@@ -50,6 +52,18 @@ def get_ids(df) -> str:
 args = parse_args()
 print(args)
 
+if args.feature:
+    # Check that it is within the 12 Chromatin Features
+    LABELS = get_features(args.features_path)
+    if not args.feature in LABELS:
+        raise ValueError(f"Chromatin Feature should be one of the ff: {LABELS}")
+    
+    COL = args.feature
+else:
+    # By default, COL will be the Overall Score
+    COL = OVERALL_SCORE_COL
+    
+
 # Extract and merge the snp list and scores
 df = pd.concat([
         pd.read_csv(args.snp_list, sep="\t"),
@@ -65,7 +79,7 @@ mutagenesis_df = pd.DataFrame({
 
 # Get the Scores Per ALT Base
 for base in BASES:
-    mutagenesis_df[base] = df[df["alt"] == base].reset_index()[args.metric]
+    mutagenesis_df[base] = df[df["alt"] == base].reset_index()[COL]
 
 # Get the Cumulative Score
 mutagenesis_df["cumulative"] = mutagenesis_df["A"] + mutagenesis_df["C"] + mutagenesis_df["G"] + mutagenesis_df["T"]
