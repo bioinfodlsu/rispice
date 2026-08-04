@@ -40,7 +40,6 @@ python -m scripts.predict.probs \
     -l .models/rispice-1000bp \
     -i .data/hak1/mutagenesis/1_Chr4_19884685/sequences.tsv \
     -o .data/hak1/mutagenesis/1_Chr4_19884685/ \
-    --automodel \
     --cuda
 
 python -m scripts.predict.compute_scores \

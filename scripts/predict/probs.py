@@ -64,12 +64,6 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--automodel",
-        action="store_true",
-        help="Load the model using Hugging Face AutoModel.",
-    )
-
-    parser.add_argument(
         "--cuda",
         action="store_true",
         help="Run inference on a CUDA-enabled GPU if available.",
@@ -164,7 +158,9 @@ DEVICE = torch.device("cuda" if args.cuda else "cpu")
 # Validate Input
 input_validation(args)
 
-model, tokenizer = load_model(args.model, args.automodel)
+USE_AUTOMODEL = True if args.kmer is None else False
+
+model, tokenizer = load_model(args.model, USE_AUTOMODEL)
 
 if args.lora:
     print(f"Loading adapters from {args.lora}")
