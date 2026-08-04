@@ -111,8 +111,9 @@ ax.set_yticklabels(ax.get_yticklabels(), weight="semibold")
 ax.set_xlabel(args.x_label, fontweight="semibold")
 ax.set_ylabel(args.y_label, fontweight="semibold")
 
-title = args.title if args.title else output_file.stem
-ax.set_title(title, fontweight="semibold")
+if args.title:
+    title = args.title
+    ax.set_title(title, fontweight="semibold")
 
 # --- Highlight significant cells ---
 sig_heatmap_df = sig_df.T  # also transposed
