@@ -1,6 +1,6 @@
 services:
   rispice-cpu:
-    image: rispice-cpu:v0.1.0
+    image: rispice-cpu:v0.2.0
     build:
       context: ..
       dockerfile: docker/Dockerfile.cpu
@@ -11,7 +11,7 @@ services:
     tty: true
 
   rispice-cuda:
-    image: rispice-cuda:v0.1.0
+    image: rispice-cuda:v0.2.0
     build:
       context: ..
       dockerfile: docker/Dockerfile.cuda
