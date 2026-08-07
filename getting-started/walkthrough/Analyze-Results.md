@@ -21,6 +21,26 @@ This generates:
 
 The output contains all **132 OsHAK1 promoter variants** ranked in descending order of their Overall Scores.
 
+### Retrieve the significant variants
+
+To retain only significant variants, specify the `--thresholds` (or `-t`) option with the thresholds file.
+
+```bash
+python -m scripts.analysis.prioritization.rank \
+    --scores .data/hak1/scores.tsv \
+    --snp_list .data/hak1/snp_list.tsv \
+    -o .analysis/hak1/ranked \
+    -t .data/stat_sig/1000/thresholds.tsv
+```
+
+By default, variants are retained using the significance threshold of **0.05**.
+
+This generates:
+
+```
+.analysis/hak1/ranked/sig_variants_5.tsv
+```
+
 ### Retrieve the Top 20 Variants
 
 To retain only the highest-ranking variants, specify the `--top` option.
@@ -58,11 +78,12 @@ This generates:
 **Expected Output**:  
 <img src="../figures/hak1_top20_variants.png" alt="Top 20 Variants by Overall Score within the OsHAK1 Promoter" width="75%">
 
+
 ## 2. Analyze Per-Feature Scores
 
 The Overall Score summarizes the predicted chromatin changes across all features. To understand which chromatin features contribute to each prediction, we can examine the **Per-Feature Scores**.
 
-For this example, we will analyze the top five variants.
+For this example, we will analyze the significant variants.
 
 ### Generate the Per-Feature Score Matrix
 
@@ -71,30 +92,32 @@ python -m scripts.analysis.prioritization.per_feature_scores \
     --scores .data/hak1/scores.tsv \
     --snp_list .data/hak1/snp_list.tsv \
     -o .analysis/hak1/per_feature \
-    --top 5
+    -t .data/stat_sig/1000/thresholds.tsv
 ```
+
+By default, variants with Overall Scores that meet the **0.05 significance threshold** are retained. This can be modified using the `--significance` option.
 
 This generates:
 
 ```
-.analysis/hak1/per_feature/per_feature_scores_top5.tsv
+.analysis/hak1/per_feature/per_feature_scores_sig5.tsv
 ```
 
 ### Visualize the Per-Feature Scores
 
 ```bash
 python -m scripts.analysis.visualize.prioritization.per_feature_scores \
-    -i .analysis/hak1/per_feature/per_feature_scores_top5.tsv \
-    -o .figures/hak1/per_feature/top5.png \
+    -i .analysis/hak1/per_feature/per_feature_scores_sig5.tsv \
+    -o .figures/hak1/per_feature/sig5.png \
     --threshold_dir .data/stat_sig/1000/per_feature \
-    -t "Per-Feature Scores of the Top 5 OsHAK1 Promoter Variants" \
+    -t "Per-Feature Scores of the Significant OsHAK1 Promoter Variants" \
     --height 5
 ```
 
 This generates:
 
 ```
-.figures/hak1/per_feature/top5.png
+.figures/hak1/per_feature/sig5.png
 ```
 
 The plot displays the predicted chromatin changes for each variant across all chromatin features. Features that exceed the empirical significance thresholds are annotated automatically when the `--threshold_dir` option is provided.
@@ -103,11 +126,11 @@ The plot displays the predicted chromatin changes for each variant across all ch
 > `.data/stat_sig/1000/per_feature` refers to the `per_feature/` directory from the empirical background distribution for the **1000 bp** RiSPICE adapter. If you are using a different adapter (e.g., 500 bp or 750 bp), specify the corresponding `per_feature/` directory instead.
 
 **Expected Output:**  
-<img src="../figures/hak1_top5_per_feature_heatmap.png" alt="Top 20 Variants by Overall Score within the OsHAK1 Promoter">
+<img src="../figures/hak1_sig5_per_feature_heatmap.png" alt="Per-Feature Score Heatmap of Significant OsHAK1 Promoter Variants">
 
 ### Interpreting the Heatmap
 
-The heatmap summarizes the predicted chromatin changes for the top five OsHAK1 promoter variants.
+The heatmap summarizes the predicted chromatin changes for the OsHAK1 promoter variants that exceeded the significance threshold of **0.05**.
 
 - **Rows** correspond to the selected SNPs.
 - **Columns** correspond to the 12 predicted chromatin features.
