@@ -52,7 +52,6 @@ python -m scripts.predict.probs \
     -l .models/rispice-1000bp \
     -i .data/hak1/sequences.tsv \
     -o .data/hak1/ \
-    --automodel \
     --cuda
 ```
 

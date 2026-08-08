@@ -96,8 +96,9 @@ if sig_line is not None:
 ax.set_xlabel(args.x_label, fontweight="semibold")
 ax.set_ylabel(args.y_label, fontweight="semibold")
 
-title = args.title if args.title else output_file.stem
-ax.set_title(title, fontweight="semibold")
+if args.title:
+    title = args.title
+    ax.set_title(title, fontweight="semibold")
 
 # Save to file
 output_file.parent.mkdir(parents=True, exist_ok=True)

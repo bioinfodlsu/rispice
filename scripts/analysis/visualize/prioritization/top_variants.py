@@ -83,8 +83,9 @@ y_label = args.y_label if args.y_label else args.metric
 ax.set_xlabel(x_label, fontweight="semibold")
 ax.set_ylabel(y_label, fontweight="semibold")
 
-title = args.title if args.title else output_file.stem
-ax.set_title(title, fontweight="semibold")
+if args.title:
+    title = args.title
+    ax.set_title(title, fontweight="semibold")
 
 ax.tick_params(axis='x', labelrotation=90)
 

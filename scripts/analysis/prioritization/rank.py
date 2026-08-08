@@ -38,11 +38,7 @@ def parse_args():
         default="Variant",
         help="Column used to rank the variants. (Default: Variant)",
     )
-    parser.add_argument(
-        "--top",
-        type=int,
-        help="Number of top-ranked variants to include in the output.",
-    )
+    
     parser.add_argument(
         "--positions",
         help=(
@@ -50,7 +46,35 @@ def parse_args():
             "The file must contain a column named 'pos'."
         ),
     )
-
+    
+    group = parser.add_mutually_exclusive_group()
+    
+    group.add_argument(
+        "--top",
+        type=int,
+        help="Number of top-ranked variants to include in the output.",
+    )
+    
+    group.add_argument(
+        "-t",
+        "--thresholds",
+        help=(
+            "Path to the thresholds.tsv file containing empirical "
+            "genome-wide significance thresholds. "
+            "Providing this will filter the variants based on its significance."
+        ),
+    )
+    parser.add_argument(
+        "-s",
+        "--significance",
+        default=0.05,
+        type=float,
+        help=(
+            "Significance level of variants to retain. "
+            "(default: %(default)s)."
+        ),
+    )
+    
     return parser.parse_args()
 
 args = parse_args()
@@ -69,6 +93,16 @@ df.sort_values(by=args.metric, ascending=False, inplace=True)
 if args.top:
     df = df[:args.top]
 
+if args.thresholds:
+    threshold_df = pd.read_csv(args.thresholds, sep="\t")
+    threshold = threshold_df[threshold_df["significance_lvl"] == args.significance].to_dict(orient='records')[0]
+    print("significance threshold ({0}): {1}".format(args.significance, threshold["score"]))
+    
+    # filter df based on the threshold
+    print(f"Total SNPs: {len(df)}")
+    df = df[df[args.metric] >= threshold["score"]]
+    print(f"Significant SNPs (threshold={args.significance}): {len(df)}")
+
 if not args.use_existing_id:
     df["id"] = "Chr" + df["chrom"].astype(str) + ":" + df["pos"].astype(str) + "_" + df["ref"] + df["alt"]
 
@@ -85,7 +119,12 @@ print(df)
 output_dir = Path(args.output_dir)
 output_dir.mkdir(parents=True, exist_ok=True)
 
-fname = f"top{args.top}_variants.tsv" if args.top else args.output_fn
+if args.top:
+    fname = f"top{args.top}_variants.tsv"
+elif args.thresholds:
+    fname = f"sig_variants_{int(args.significance*100)}.tsv"
+else:
+    fname = args.output_fn
 
 output_path = output_dir / fname
 df.to_csv(output_path, sep="\t", index=False)

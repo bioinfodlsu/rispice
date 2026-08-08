@@ -1,5 +1,6 @@
 import argparse
 import pandas as pd
+import numpy as np
 from pathlib import Path
 
 import seaborn as sns
@@ -38,6 +39,12 @@ def parse_args():
         "-t",
         "--title",
         help="Title of the heatmap (default: output filename).",
+    )
+    
+    parser.add_argument(
+        "--feature",
+        action="store_true",
+        help="Flag if the heatmap is for a Per-Feature Score.",
     )
 
     parser.add_argument(
@@ -78,7 +85,23 @@ print(f"Plotting the data...")
 sns.set_theme(style="whitegrid", font="Open Sans")
 plt.figure(figsize=(35, 4))
 
-ax = sns.heatmap(matrix_df.T, cmap="Blues", linewidths=0.2)
+if args.feature:
+    color = "PiYG"
+    highlight_color = "black"
+    
+    max_abs = np.abs(matrix_df.to_numpy()).max()
+else:
+    color = "Blues"
+    highlight_color = "red"
+
+ax = sns.heatmap(
+    matrix_df.T,
+    cmap=color,
+    linewidths=0.2,
+    vmin=None if not args.feature else -max_abs,
+    vmax=None if not args.feature else max_abs,
+    cbar_kws={"pad": 0.01},
+)
 
 ax.set(xlabel=None, ylabel=None)
 ax.tick_params(axis="y", labelrotation=0)
@@ -88,8 +111,9 @@ ax.set_yticklabels(ax.get_yticklabels(), weight="semibold")
 ax.set_xlabel(args.x_label, fontweight="semibold")
 ax.set_ylabel(args.y_label, fontweight="semibold")
 
-title = args.title if args.title else output_file.stem
-ax.set_title(title, fontweight="semibold")
+if args.title:
+    title = args.title
+    ax.set_title(title, fontweight="semibold")
 
 # --- Highlight significant cells ---
 sig_heatmap_df = sig_df.T  # also transposed
@@ -98,7 +122,7 @@ for y_idx, row_label in enumerate(sig_heatmap_df.index):  # y = positions
     for x_idx, col_label in enumerate(sig_heatmap_df.columns):  # x = A,C,G,T
         if sig_heatmap_df.loc[row_label, col_label]:  # True -> highlight
             ax.add_patch(
-                Rectangle((x_idx, y_idx), 1, 1, fill=False, edgecolor="red", lw=2.5)
+                Rectangle((x_idx, y_idx), 1, 1, fill=False, edgecolor=highlight_color, lw=2.5)
             )
 
 # Save to File
@@ -106,5 +130,5 @@ output_file.parent.mkdir(parents=True, exist_ok=True)
 
 print(f"Saving results to {output_file}")
 plt.tight_layout()
-plt.savefig(output_file, dpi=300)
+plt.savefig(output_file, bbox_inches="tight", dpi=300)
 plt.close()
