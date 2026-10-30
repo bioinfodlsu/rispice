@@ -46,6 +46,12 @@ RiSPICE builds upon **[DNABERT-2-117M](https://huggingface.co/zhihan1996/DNABERT
 
 Download the RiSPICE Base model together with the desired LoRA adapter. The model repositories can be downloaded directly from the Hugging Face website, cloned with Git, or retrieved using the Hugging Face CLI.
 
+## Support and Contributions
+
+For bug reports, feature requests, usage questions, or contributions, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+You can report issues or suggest improvements through the [GitHub Issues page](https://github.com/bioinfodlsu/rispice/issues). Contributions to the code and documentation are welcome via pull requests.
+
 ## Citation
 
 If you use RiSPICE in your research, please cite the associated paper.
